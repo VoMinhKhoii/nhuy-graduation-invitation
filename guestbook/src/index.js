@@ -1,7 +1,7 @@
 // Lưu bút backend: a Cloudflare Worker in front of a D1 (SQLite) table.
 // GET returns the visible wishes, newest first. POST saves one wish.
 
-const ALLOWED_ORIGINS = [/^https:\/\/vominhkhoii\.github\.io$/, /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/];
+const ALLOWED_ORIGINS = [/^https:\/\/vominhkhoii\.github\.io$/, /^https:\/\/nhui-ba-khi\.github\.io$/, /^http:\/\/(localhost|127\.0\.0\.1)(:\d+)?$/];
 const MAX_PER_TEN_MINUTES = 10;
 
 function corsHeaders(request) {
