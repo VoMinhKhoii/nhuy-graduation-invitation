@@ -390,7 +390,7 @@ a { color: inherit; }
   .thanks__keepsake { width: min(100%, 400px); margin: 0 auto; }
   .thanks__cherries { width: 110px; left: -30px; bottom: -36px; }
   .thanks__konica { width: 150px; right: -40px; top: -60px; }
-  .people { grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 44px 28px; margin-top: 96px; }
+  .people { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 44px 36px; margin-top: 96px; }
   .people .note:nth-child(even) { margin-top: 36px; }
   .note { padding: 34px 22px 24px; }
   .note h3 { font-size: 20px; }
