@@ -14,38 +14,16 @@ const revealer = new IntersectionObserver((entries) => {
 }, { rootMargin: '0px 0px -12% 0px', threshold: 0.12 });
 document.querySelectorAll('[data-reveal]').forEach((el) => revealer.observe(el));
 
-// ---------- Clothesline: pin the section and pan sideways on desktop ----------
-function setUpClothesline() {
-  if (!window.gsap || !window.ScrollTrigger) return;
-  gsap.registerPlugin(ScrollTrigger);
-  const section = document.querySelector('.memories');
-  const track = section.querySelector('.memories__track');
-  const mm = gsap.matchMedia();
-
-  mm.add('(min-width: 1024px) and (prefers-reduced-motion: no-preference)', () => {
-    section.classList.add('is-pinned');
-    const distance = () => Math.max(0, track.scrollWidth - window.innerWidth);
-    gsap.to(track, {
-      x: () => -distance(),
-      ease: 'none',
-      scrollTrigger: {
-        trigger: section,
-        start: 'top top',
-        end: () => `+=${distance()}`,
-        pin: true,
-        scrub: 1,
-        anticipatePin: 1,
-        invalidateOnRefresh: true,
-      },
-    });
-    return () => section.classList.remove('is-pinned');
-  });
-
-  // Fonts and photos change the track width; measure again once everything has loaded.
-  window.addEventListener('load', () => ScrollTrigger.refresh());
-  document.fonts?.ready.then(() => ScrollTrigger.refresh());
+// ---------- Clothesline: the first photo on each wrapped line draws that line's twine ----------
+const line = document.querySelector('.line');
+function markRowStarts() {
+  let rowTop = null;
+  for (const item of line.children) {
+    item.classList.toggle('is-row-start', item.offsetTop !== rowTop);
+    rowTop = item.offsetTop;
+  }
 }
-setUpClothesline();
+new ResizeObserver(markRowStarts).observe(line);
 
 // ---------- Guestbook ----------
 const form = document.getElementById('gb-form');

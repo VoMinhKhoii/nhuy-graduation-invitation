@@ -146,101 +146,53 @@ a { color: inherit; }
 .hero__lace { position: absolute; right: -44px; top: 0; width: min(300px, 80vw); height: auto; rotate: 7deg; opacity: 0.94; }
 .hero__sticker { position: absolute; right: -4px; bottom: 0; width: min(240px, 62vw); height: auto; }
 
-/* ---------- 2. Memories on a clothesline (phone first: swipe) ---------- */
-.memories { position: relative; padding: 76px 0 40px; }
-.memories__head { padding: 0 16px; max-width: 560px; }
+/* ---------- 2. Memories: friends' photos on clotheslines (phone first) ---------- */
+.memories { position: relative; padding: 76px 0 64px; overflow-x: clip; }
 .memories__title { margin: 0; font: 800 56px/1 var(--hand); color: var(--cream); }
-.memories__lead { margin: 12px 0 0; font: 500 16px/1.6 var(--hand); color: var(--cream-2); }
-.line-scroll {
-  margin-top: 24px;
-  overflow-x: auto;
-  overscroll-behavior-x: contain;
-  scroll-snap-type: x mandatory;
-  scroll-padding-inline: 20px;
-  scrollbar-width: none;
-}
-.line-scroll::-webkit-scrollbar { display: none; }
+.memories__lead { max-width: 560px; margin: 12px 0 0; font: 500 16px/1.6 var(--hand); color: var(--cream-2); }
+/* Photos wrap onto as many lines as fit. main.js marks the first photo on each line; it draws that line's twine. */
 .line {
   --twine-top: 34px;
-  position: relative;
   display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
   align-items: flex-start;
-  gap: 26px;
-  width: max-content;
-  margin: 0;
-  padding: 0 28px 36px;
+  gap: 40px 5vw;
+  width: min(100% - 32px, 1240px);
+  margin: 28px auto 0;
+  padding: 0;
   list-style: none;
 }
-/* jute twine: a small twisted cord drawn in CSS */
-.line::before {
+.hang { position: relative; flex: none; padding-top: calc(var(--twine-top) + 14px); }
+/* jute twine: a small twisted cord drawn in CSS, strung across the whole page */
+.hang::before {
   content: "";
   position: absolute;
-  left: 0;
-  right: 0;
+  left: -100vw;
+  right: -100vw;
   top: var(--twine-top);
   height: 5px;
   border-radius: 3px;
   background: repeating-linear-gradient(-58deg, #d8b48a 0 2px, #a37b52 2px 4px, #c79f73 4px 6px);
   box-shadow: 0 4px 5px rgba(20, 0, 4, 0.45);
 }
-.hang { --drop: calc(var(--d, 0) * 4px); --gap: 14px; position: relative; flex: none; padding-top: calc(var(--twine-top) + var(--gap) + var(--drop)); scroll-snap-align: center; }
-.hang--tag { --gap: 0px; }
-/* baker's twine: tags and notes hang from the line on cords of different lengths */
-.hang--cord::before {
-  content: "";
-  position: absolute;
-  top: var(--twine-top);
-  left: 50%;
-  width: 2px;
-  height: calc(var(--gap) + var(--drop) + 12px);
-  translate: -50% 0;
-  background: repeating-linear-gradient(0deg, #f1e8d8 0 3px, #cbbca2 3px 5px);
-  box-shadow: 1px 2px 2px rgba(20, 0, 4, 0.35);
-}
-.hang--tag::before { left: 51%; }
+.js .hang:not(.is-row-start)::before { display: none; }
 .peg { position: absolute; z-index: 2; top: calc(var(--twine-top) - 22px); left: 50%; width: 26px; height: auto; translate: -50% 0; filter: drop-shadow(0 4px 4px rgba(20, 0, 4, 0.5)); }
 .swing { transform-origin: 50% 0; animation: sway 6s ease-in-out infinite alternate; }
 .hang:nth-child(3n + 1) .swing { animation-duration: 7s; animation-delay: -2s; }
 .hang:nth-child(3n + 2) .swing { animation-duration: 5.5s; animation-delay: -4s; }
 @keyframes sway { from { rotate: -1.8deg; } to { rotate: 1.8deg; } }
-.strip { display: block; height: 430px; width: auto; box-shadow: 0 16px 24px var(--shade); }
-.booth { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; width: 300px; padding: 8px; background: #fbf8f2; box-shadow: 0 16px 24px var(--shade); }
+.strip { display: block; height: min(78vw, 420px); width: auto; box-shadow: 0 16px 24px var(--shade); }
+.booth { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; width: min(60vw, 320px); padding: 8px; background: #fbf8f2; box-shadow: 0 16px 24px var(--shade); }
 .booth img { display: block; width: 100%; height: auto; }
-.tag {
-  position: relative;
-  width: 184px;
-  aspect-ratio: 560 / 998;
-  background: url(../img/tag-kraft.webp) center / 100% 100% no-repeat;
-  filter: drop-shadow(0 12px 14px var(--shade));
-}
-.tag p { position: absolute; inset: 0; margin: 0; font: 700 16px/1.1 var(--hand); color: var(--ink); text-align: center; }
-/* written on the tag's own two dotted lines */
-.tag__l1, .tag__l2 { position: absolute; left: 7%; right: 7%; white-space: nowrap; }
-.tag__l1 { bottom: calc(54.8% + 3px); }
-.tag__l2 { bottom: calc(29.5% + 3px); }
-.card { position: relative; width: 240px; padding: 28px 22px 24px; color: var(--ink); box-shadow: 0 14px 22px var(--shade); }
-.hang--cord .card::before {
-  content: "";
-  position: absolute;
-  top: -10px;
-  left: 50%;
-  width: 54px;
-  height: 20px;
-  translate: -50% 0;
-  rotate: -3deg;
-  background: rgba(246, 236, 210, 0.9);
-  clip-path: polygon(3% 0, 97% 4%, 100% 22%, 96% 46%, 100% 72%, 97% 100%, 2% 96%, 0 70%, 4% 44%, 0 18%);
-}
-.card.paper-cream { background-image: linear-gradient(rgba(255, 250, 240, 0.3), rgba(255, 250, 240, 0.3)), url(../img/paper-cream.webp); background-size: cover; }
-.card--lined { background: #fbfaf7 url(../img/lined.webp) 0 -10px / 600px auto repeat-y; }
-.card p { margin: 0; font: 600 18px/1.5 var(--hand); }
-.card--big { width: 290px; }
-.card__love { margin-top: 16px !important; font-size: 19px !important; font-weight: 750 !important; }
-/* This line wraps, so each line gets its own stroke. */
-.card__love { line-height: 2.25 !important; }
-.card__love .brush-long { display: inline; padding: 0.32em 0.9em 0.38em 1em; background-image: url(../img/brush-bold.webp); -webkit-box-decoration-break: clone; box-decoration-break: clone; }
-.card__aside { margin-top: 10px !important; font-size: 16px !important; font-weight: 500 !important; color: var(--maroon); }
-.hang--polaroid .polaroid { width: 280px; }
+.hang--polaroid .polaroid { width: min(58vw, 340px); }
+
+.memories__letter { position: relative; max-width: 860px; margin: 56px auto 0; }
+.memories__text { position: relative; margin: 0; padding: 34px 24px 30px; color: var(--ink); font: 450 17px/1.9 var(--hand); }
+.nl { font-weight: 750; color: var(--maroon); }
+/* the closing words sit on two stacked brush strokes, each kept to one line */
+.memories__love { display: flex; flex-direction: column; align-items: flex-start; margin: 0.4em 0 0.3em -0.4em; line-height: 1.3; }
+.memories__love .brush-long { padding: 0.5em 2.3em 0.55em 0.7em; font-size: clamp(13px, 4vw, 16px); font-weight: 700; white-space: nowrap; }
 
 /* ---------- 3. Thank you ---------- */
 .thanks { padding: 84px 0 72px; overflow-x: clip; }
@@ -418,30 +370,17 @@ a { color: inherit; }
   .hero__lace { left: calc(16 * var(--u)); right: auto; top: calc(20 * var(--u)); width: calc(556 * var(--u)); }
   .hero__sticker { left: calc(60 * var(--u)); right: auto; bottom: 6px; width: calc(520 * var(--u)); }
 
-  /* Memories: pinned; the clothesline pans sideways as you scroll (main.js). Without that, it scrolls sideways. */
-  .memories { padding: 0; overflow-x: auto; }
-  .memories.is-pinned { overflow: hidden; }
-  .memories__track { display: flex; align-items: stretch; gap: 5vw; width: max-content; height: 100svh; min-height: 640px; padding-left: 7vw; }
-  .memories__head { align-self: center; width: min(34vw, 470px); padding: 0; }
+  .memories { padding: 130px 0 110px; }
   .memories__title { font-size: clamp(72px, 8vw, 124px); }
   .memories__lead { margin-top: 18px; font-size: clamp(18px, 1.6vw, 23px); }
-  .line-scroll { margin: 0; overflow: visible; scroll-snap-type: none; }
-  .line { --twine-top: 14svh; gap: clamp(40px, 3.6vw, 68px); height: 100%; padding: 0 8vw 0 3vw; }
-  .line::before { left: -3vw; }
-  .hang { --drop: calc(var(--d, 0) * 1svh); --gap: 2.2svh; }
-  .hang--tag { --gap: 0px; }
-  .peg { width: 3.4svh; top: calc(var(--twine-top) - 2.8svh); }
-  .strip { height: 66svh; }
-  .booth { width: 46svh; padding: 1.1svh; gap: 0.8svh; }
-  .tag { width: 30svh; }
-  .tag p { font-size: clamp(17px, 2.5svh, 25px); }
-  .card { width: 33svh; padding: 3.4svh 2.8svh 3svh; }
-  .card p { font-size: clamp(18px, 2.6svh, 26px); }
-  .card--big { width: 42svh; }
-  .card__love { font-size: clamp(19px, 2.7svh, 27px) !important; }
-  .card__aside { font-size: clamp(16px, 2.1svh, 21px) !important; }
-  .card--lined { background-size: 760px auto; background-position: 0 -4px; }
-  .hang--polaroid .polaroid { width: 42svh; }
+  .line { --twine-top: 40px; gap: 80px clamp(40px, 4.5vw, 72px); margin-top: 48px; }
+  .peg { width: 34px; top: calc(var(--twine-top) - 28px); }
+  .strip { height: 520px; }
+  .booth { width: 380px; padding: 10px; gap: 8px; }
+  .hang--polaroid .polaroid { width: 420px; }
+  .memories__letter { margin-top: 96px; }
+  .memories__text { padding: 60px 64px 56px; font-size: 22px; }
+  .memories__love .brush-long { padding: 0.5em 2.2em 0.56em 0.8em; font-size: 24px; }
 
   .thanks { padding: 120px 0 96px; }
   .thanks__grid { grid-template-columns: 7fr 5fr; gap: 72px; align-items: center; }
