@@ -183,11 +183,13 @@ a { color: inherit; }
 .hang:nth-child(3n + 2) .swing { animation-duration: 5.5s; animation-delay: -4s; }
 @keyframes sway { from { rotate: -1.8deg; } to { rotate: 1.8deg; } }
 .strip { display: block; height: min(78vw, 420px); width: auto; box-shadow: 0 16px 24px var(--shade); }
-.booth { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; width: min(60vw, 320px); padding: 8px; background: #fbf8f2; box-shadow: 0 16px 24px var(--shade); }
+.booth { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 6px; width: min(44vw, 320px); padding: 8px; background: #fbf8f2; box-shadow: 0 16px 24px var(--shade); }
 .booth img { display: block; width: 100%; height: auto; }
 .hang--polaroid .polaroid { width: min(58vw, 340px); }
+.hang--tall .polaroid { width: min(38vw, 240px); }
 
-.memories__letter { position: relative; max-width: 860px; margin: 56px auto 0; }
+.memories__letter { position: relative; max-width: 860px; margin: 150px auto 0; }
+.memories__sticker { position: absolute; z-index: 1; right: -6px; top: -150px; width: 110px; height: auto; rotate: 6deg; }
 .memories__text { position: relative; margin: 0; padding: 34px 24px 30px; color: var(--ink); font: 450 17px/1.9 var(--hand); }
 .nl { font-weight: 750; color: var(--maroon); }
 /* the closing words sit on two stacked brush strokes, each kept to one line */
@@ -202,9 +204,10 @@ a { color: inherit; }
 .thanks__copy p { margin: 0 0 14px; }
 .thanks__last { font-weight: 700; color: var(--maroon); margin-bottom: 0 !important; }
 .thanks__bow { right: -14px; top: -46px; width: 60px; rotate: 16deg; }
-.thanks__keepsake { position: relative; width: min(76%, 320px); margin: 12px auto 0; }
-.thanks__self { width: 100%; rotate: -3deg; }
-.thanks__self img { aspect-ratio: 4 / 5; object-fit: cover; object-position: 50% 88%; }
+.thanks__keepsake { position: relative; height: 400px; max-width: 420px; width: 100%; margin: 12px auto 0; }
+.thanks__sticker { position: absolute; height: auto; }
+.thanks__sticker--a { left: 0; top: 0; width: 60%; rotate: -5deg; }
+.thanks__sticker--b { right: 0; bottom: 0; width: 56%; rotate: 5deg; }
 .thanks__cherries { left: -8px; bottom: -26px; width: 66px; rotate: -12deg; z-index: 3; }
 .thanks__konica { right: -8px; top: -30px; width: 92px; rotate: 12deg; z-index: 3; }
 
@@ -283,7 +286,8 @@ a { color: inherit; }
 
 .wall { position: relative; }
 .wall__ace, .wall__rose { display: none; }
-.wall__notes { position: relative; margin: 0; padding: 0; list-style: none; columns: 2 220px; column-gap: 20px; }
+.wall__sticker { position: absolute; z-index: 1; right: -6px; top: -78px; width: 104px; height: auto; rotate: 7deg; }
+.wall__notes { position: relative; margin: 0; padding: 34px 0 0; list-style: none; columns: 2 220px; column-gap: 20px; }
 .wish--empty { column-span: all; max-width: 360px; }
 .wish { position: relative; break-inside: avoid; margin: 0 0 26px; padding: 28px 18px 18px; color: var(--ink); font: 500 17px/1.55 var(--hand); box-shadow: 0 12px 18px rgba(20, 0, 4, 0.42); background: #fdfcf8; }
 .wish:nth-child(3n + 1) { background-image: linear-gradient(rgba(255, 250, 240, 0.3), rgba(255, 250, 240, 0.3)), url(../img/paper-cream.webp); background-size: cover; }
@@ -376,9 +380,11 @@ a { color: inherit; }
   .line { --twine-top: 40px; gap: 80px clamp(40px, 4.5vw, 72px); margin-top: 48px; }
   .peg { width: 34px; top: calc(var(--twine-top) - 28px); }
   .strip { height: 520px; }
-  .booth { width: 380px; padding: 10px; gap: 8px; }
-  .hang--polaroid .polaroid { width: 420px; }
-  .memories__letter { margin-top: 96px; }
+  .booth { width: 340px; padding: 10px; gap: 8px; }
+  .hang--polaroid .polaroid { width: 360px; }
+  .hang--tall .polaroid { width: 280px; }
+  .memories__letter { margin-top: 250px; }
+  .memories__sticker { right: 40px; top: -270px; width: 200px; }
   .memories__text { padding: 60px 64px 56px; font-size: 22px; }
   .memories__love .brush-long { padding: 0.5em 2.2em 0.56em 0.8em; font-size: 24px; }
 
@@ -387,7 +393,7 @@ a { color: inherit; }
   .thanks__copy { padding: 58px 60px 52px; font-size: 20px; line-height: 1.75; }
   .thanks__copy p { margin-bottom: 18px; }
   .thanks__bow { width: 108px; right: -30px; top: -50px; }
-  .thanks__keepsake { width: min(100%, 400px); margin: 0 auto; }
+  .thanks__keepsake { height: 600px; max-width: none; margin: 0; }
   .thanks__cherries { width: 110px; left: -30px; bottom: -36px; }
   .thanks__konica { width: 150px; right: -40px; top: -60px; }
   .people { grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 44px 36px; margin-top: 96px; }
@@ -420,10 +426,12 @@ a { color: inherit; }
   .guestbook__grid { grid-template-columns: 5fr 7fr; gap: 64px; align-items: start; }
   .lined { background-size: 782px auto; }
   .gb-form__body { padding: 52px 40px 40px 98px; }
-  .wall { min-height: 560px; }
-  .wall__notes { column-gap: 26px; padding-top: 12px; }
-  .wall__ace { display: block; right: 4%; top: 40px; width: 150px; rotate: 12deg; border-radius: 12px; }
-  .wall__rose { display: block; right: 20%; top: 300px; width: 190px; rotate: -16deg; }
+  /* notes keep to the left; the card, sticker and rose own a strip on the right */
+  .wall { min-height: 660px; }
+  .wall__notes { columns: 2 200px; column-gap: 26px; padding: 12px 250px 0 0; }
+  .wall__ace { display: block; right: 70px; top: 0; width: 140px; rotate: 12deg; border-radius: 12px; }
+  .wall__sticker { right: 0; top: 190px; width: 210px; }
+  .wall__rose { display: block; right: 50px; top: 440px; width: 170px; rotate: -16deg; }
   .wish--empty { margin-top: 20px; }
 
   .footer { padding: 48px 0 72px; }
