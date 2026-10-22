@@ -1,7 +1,5 @@
-// Paste the Google Apps Script web app URL here to turn on the shared guestbook (see apps-script/README.md).
-// While it is empty, sending a wish opens a text message to Như í instead.
-const GUESTBOOK_URL = '';
-const PHONE = '0367174803';
+// The Lưu bút backend: a Cloudflare Worker with a D1 (SQLite) table (see guestbook/README.md).
+const GUESTBOOK_URL = 'https://nhuy-luu-but.minhkhoitdn.workers.dev';
 
 const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
 
@@ -87,7 +85,6 @@ function clearSkeletons() {
 }
 
 async function loadWishes() {
-  if (!GUESTBOOK_URL) return;
   showSkeletons(3);
   try {
     const res = await fetch(GUESTBOOK_URL);
@@ -121,21 +118,11 @@ form.addEventListener('submit', async (event) => {
     return;
   }
 
-  if (!GUESTBOOK_URL) {
-    const body = encodeURIComponent(`${message}\n- ${name || 'Ẩn danh'}`);
-    const link = document.createElement('a');
-    link.href = `sms:${PHONE}?&body=${body}`;
-    link.textContent = 'bấm vào đây';
-    statusEl.replaceChildren('Đang mở tin nhắn gửi í. Không mở được thì ', link, ' nhé.');
-    window.location.href = link.href;
-    return;
-  }
-
   const button = form.querySelector('button[type="submit"]');
   button.disabled = true;
   statusEl.textContent = 'Đang gửi…';
   try {
-    // A text/plain body keeps this a simple request, which Apps Script accepts without a preflight.
+    // A text/plain body keeps this a simple request, so the browser skips the CORS preflight.
     const res = await fetch(GUESTBOOK_URL, { method: 'POST', body: JSON.stringify({ name, message }) });
     const data = await res.json();
     if (!data.ok) throw new Error(data.error || 'failed');
@@ -143,8 +130,10 @@ form.addEventListener('submit', async (event) => {
     list.prepend(wishEl({ name, message }, !reduceMotion.matches));
     form.reset();
     statusEl.textContent = 'Gửi rồi nè, cảm ơn nhiều nha!';
-  } catch {
-    statusEl.textContent = 'Gửi chưa được, thử lại giúp í nha.';
+  } catch (err) {
+    statusEl.textContent = err.message === 'too-many'
+      ? 'Gửi nhiều quá rồi nè, đợi vài phút rồi gửi tiếp nha.'
+      : 'Gửi chưa được, thử lại giúp í nha.';
   } finally {
     button.disabled = false;
   }

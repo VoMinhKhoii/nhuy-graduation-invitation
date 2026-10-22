@@ -1,0 +1,12 @@
+{
+  "name": "nhuy-luu-but",
+  "main": "src/index.js",
+  "compatibility_date": "2026-10-01",
+  "d1_databases": [
+    {
+      "binding": "DB",
+      "database_name": "nhuy-luu-but",
+      "database_id": "8d3f9847-8b2f-4d9b-85b7-43f7540269f8"
+    }
+  ]
+}
